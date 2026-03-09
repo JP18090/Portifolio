@@ -1,123 +1,60 @@
 # syntax=docker/dockerfile:1
 
-############################
-# FRONTEND - BUILD (auto)
-############################
+# FRONTEND - BUILD
 FROM node:20-alpine AS frontend-builder
+WORKDIR /workspace/frontend
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci
+COPY frontend/ .
+RUN npm run build
 
-WORKDIR /workspace
-# Copia todo o repo (o .dockerignore da RAIZ controla o que entra)
-COPY . .
-
-# Descobre a pasta do frontend (prioriza caminhos que contenham "frontend")
-# Depois instala deps e builda
-RUN set -eux; \
-  FRONTEND_DIR="$( \
-    find /workspace -maxdepth 3 -type f -name package.json -path '*/frontend/*' -print -quit \
-    || find /workspace -maxdepth 3 -type f -name package.json -print -quit \
-  )"; \
-  FRONTEND_DIR="$(dirname "$FRONTEND_DIR")"; \
-  echo "[frontend] detected at: $FRONTEND_DIR"; \
-  cd "$FRONTEND_DIR"; \
-  npm ci; \
-  npm run build; \
-  # guarda artefatos em um caminho fixo
-  mkdir -p /workspace/artifacts/frontend; \
-  cp -r dist /workspace/artifacts/frontend/dist
-
-
-############################
-# BACKEND - BUILD (auto)
-############################
+# BACKEND - BUILD
 FROM maven:3.9.6-eclipse-temurin-17 AS backend-builder
+WORKDIR /workspace/backend
+COPY backend/pom.xml .
+RUN mvn -q -B dependency:go-offline
+COPY backend/src ./src
+RUN mvn -q -B clean package -DskipTests
 
-WORKDIR /workspace
-COPY . .
-
-# Descobre a pasta do backend pelo pom.xml (prioriza caminhos com "backend")
-# Faz o build do JAR (sem testes) e salva em /workspace/artifacts/backend/app.jar
-RUN set -eux; \
-  POM_PATH="$( \
-    find /workspace -maxdepth 5 -type f -name pom.xml -path '*/backend/pom.xml' -print -quit \
-    || find /workspace -maxdepth 5 -type f -name pom.xml -print -quit \
-  )"; \
-  BACKEND_DIR="$(dirname "$POM_PATH")"; \
-  echo "[backend] detected at: $BACKEND_DIR"; \
-  cd "$BACKEND_DIR"; \
-  mvn -q -B dependency:go-offline; \
-  mvn -q -B clean package -DskipTests; \
-  mkdir -p /workspace/artifacts/backend; \
-  cp target/*.jar /workspace/artifacts/backend/app.jar
-
-
-############################################
-# RUNTIME ÚNICO (NGINX servindo SPA + proxy)
-############################################
-FROM eclipse-temurin:17-jre-alpine AS app
-
-# Nginx para servir o frontend e fazer proxy para o backend
-RUN apk add --no-cache nginx bash curl
-
+# RUNTIME FINAL
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
-RUN mkdir -p /run/nginx /var/log/nginx
 
-# Copia artefatos prontos
-COPY --from=frontend-builder /workspace/artifacts/frontend/dist /usr/share/nginx/html
-COPY --from=backend-builder  /workspace/artifacts/backend/app.jar  /app/app.jar
+RUN apk add --no-cache nodejs npm curl supervisor
 
-# Variáveis de ambiente
-ENV JAVA_OPTS="-Xmx512m -Xms256m"
-# Render injeta PORT; definimos padrão local
-ENV PORT=3000
-ENV BACKEND_PORT=8080
+COPY --from=backend-builder /workspace/backend/target/*.jar /app/backend.jar
+COPY --from=frontend-builder /workspace/frontend/dist /app/frontend/dist
 
-# Configuração do Nginx (escuta ${PORT}, SPA + proxy /api -> Spring Boot)
-RUN printf '%s\n' \
-  'user  nginx;' \
-  'worker_processes  auto;' \
-  'error_log  /var/log/nginx/error.log warn;' \
-  'pid        /var/run/nginx.pid;' \
-  'events { worker_connections  1024; }' \
-  'http {' \
-  '  include       /etc/nginx/mime.types;' \
-  '  default_type  application/octet-stream;' \
-  '  sendfile        on;' \
-  '  keepalive_timeout  65;' \
-  '  server {' \
-  '    listen       ${PORT};' \
-  '    server_name  _;' \
-  '    root   /usr/share/nginx/html;' \
-  '    index  index.html;' \
-  '    # Proxy de API para o Spring Boot interno' \
-  '    location /api/ {' \
-  '      proxy_pass http://127.0.0.1:${BACKEND_PORT}/;' \
-  '      proxy_http_version 1.1;' \
-  '      proxy_set_header Host $host;' \
-  '      proxy_set_header X-Real-IP $remote_addr;' \
-  '      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;' \
-  '      proxy_set_header X-Forwarded-Proto $scheme;' \
-  '    }' \
-  '    # SPA fallback' \
-  '    location / {' \
-  '      try_files $uri /index.html;' \
-  '    }' \
-  '  }' \
-  '}' > /etc/nginx/nginx.conf
+RUN npm install -g serve
 
-# EntryPoint: sobe o Spring Boot em background e mantém Nginx em foreground
-RUN printf '%s\n' \
-  '#!/usr/bin/env bash' \
-  'set -e' \
-  'echo "[entrypoint] Starting Spring Boot at ${BACKEND_PORT}..."' \
-  'java $JAVA_OPTS -Dserver.port=${BACKEND_PORT} -jar /app/app.jar & ' \
-  'echo "[entrypoint] Starting Nginx at ${PORT}..."' \
-  'nginx -g "daemon off;"' \
-  > /app/entrypoint.sh && chmod +x /app/entrypoint.sh
+RUN mkdir -p /etc/supervisor/conf.d
 
-# Para rodar local, mapeie -p 3000:3000 (Render setará PORT)
-EXPOSE 3000
+RUN cat > /etc/supervisor/conf.d/supervisord.conf << 'EOF'
+[supervisord]
+nodaemon=true
+logfile=/var/log/supervisord.log
+pidfile=/var/run/supervisord.pid
 
-HEALTHCHECK --interval=30s --timeout=5s --start-period=25s --retries=5 \
-  CMD curl -fsS "http://127.0.0.1:${PORT:-3000}/" || exit 1
+[program:backend]
+command=java -Xmx512m -Xms256m -jar /app/backend.jar
+autostart=true
+autorestart=true
+stderr_logfile=/var/log/backend.err.log
+stdout_logfile=/var/log/backend.out.log
+priority=999
 
-CMD ["/app/entrypoint.sh"]
+[program:frontend]
+command=serve -s /app/frontend/dist -l 3000
+autostart=true
+autorestart=true
+stderr_logfile=/var/log/frontend.err.log
+stdout_logfile=/var/log/frontend.out.log
+priority=999
+EOF
+
+EXPOSE 3000 8080
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=5 \
+    CMD curl -f http://localhost:3000 && curl -f http://localhost:8080 || exit 1
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
