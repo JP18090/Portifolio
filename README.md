@@ -1,6 +1,6 @@
 # 🎯 Aplicativo de Portfólio Full-Stack
 
-Um aplicativo web moderno e completo para exibir projetos profissionais. Desenvolvido com **React**, **Spring Boot** e **Banco de Dados H2** - perfeito para o seu portfólio!
+Um aplicativo web moderno e completo para exibir seu portifolio. Desenvolvido com **React**, **Spring Boot** e **Banco de Dados H2**.
 
 ## 🚀 Início Rápido (30 segundos!)
 
