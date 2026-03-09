@@ -1,18 +1,17 @@
+# syntax=docker/dockerfile:1
+
 ############################
 # FRONTEND - BUILD
 ############################
 FROM node:20-alpine AS frontend-builder
 
-# diretório de trabalho genérico do monorepo
 WORKDIR /workspace
-
-# Copia tudo de uma vez (será filtrado via .dockerignore)
 COPY . .
 
-# Garante que estamos na pasta correta
-WORKDIR /workspace/frontend
+# garante que a pasta existe, senão falha com msg clara
+RUN [ -f /workspace/frontend/package.json ] || (echo "ERRO: /workspace/frontend/package.json não encontrado no contexto. Rode o build na RAIZ do repo e confira o .dockerignore." && exit 1)
 
-# Instala deps e builda
+WORKDIR /workspace/frontend
 RUN npm ci && npm run build
 
 
@@ -22,10 +21,8 @@ RUN npm ci && npm run build
 FROM node:20-alpine AS frontend-runtime
 
 WORKDIR /app
-
 RUN npm install -g serve
 
-# copia apenas o artefato final
 COPY --from=frontend-builder /workspace/frontend/dist ./dist
 
 EXPOSE 3000
@@ -42,14 +39,12 @@ CMD ["serve", "-s", "dist", "-l", "3000"]
 FROM maven:3.9.6-eclipse-temurin-17 AS backend-builder
 
 WORKDIR /workspace
-
-# Copia tudo de uma vez (será filtrado via .dockerignore)
 COPY . .
 
-# Garante que estamos na pasta correta
-WORKDIR /workspace/backend
+# valida que o pom.xml chegou
+RUN [ -f /workspace/backend/pom.xml ] || (echo "ERRO: /workspace/backend/pom.xml não encontrado no contexto. Rode o build na RAIZ do repo e confira o .dockerignore." && exit 1)
 
-# Baixa dependências offline e builda
+WORKDIR /workspace/backend
 RUN mvn -q -B dependency:go-offline
 RUN mvn -q -B clean package -DskipTests
 
@@ -60,12 +55,8 @@ RUN mvn -q -B clean package -DskipTests
 FROM eclipse-temurin:17-jre-alpine AS backend-runtime
 
 WORKDIR /app
-
-# Copia somente o JAR gerado do backend
 COPY --from=backend-builder /workspace/backend/target/*.jar /app/app.jar
 
 EXPOSE 8080
-
 ENV JAVA_OPTS="-Xmx512m -Xms256m"
-
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/app.jar"]
