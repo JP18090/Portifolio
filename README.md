@@ -2,7 +2,7 @@
 
 Um aplicativo web moderno e completo para exibir seu portifolio. Desenvolvido com **React**, **Spring Boot** e **Banco de Dados H2**.
 
-## 🚀 Início Rápido (30 segundos!)
+## 🚀 Início Rápido (30 segundos)
 
 ### Usuários do Windows:
 Basta clicar duas vezes em: **`start.bat`**
