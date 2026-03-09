@@ -1,80 +1,71 @@
-###############
-# FRONTEND BUILD
-###############
+############################
+# FRONTEND - BUILD
+############################
 FROM node:20-alpine AS frontend-builder
 
-WORKDIR /app
+# diretório de trabalho genérico do monorepo
+WORKDIR /workspace
 
-# Copy package files
-COPY frontend/package.json frontend/package-lock.json ./
+# Copia tudo de uma vez (será filtrado via .dockerignore)
+COPY . .
 
-# Install dependencies
-RUN npm ci
+# Garante que estamos na pasta correta
+WORKDIR /workspace/frontend
 
-# Copy source code
-COPY frontend .
-
-# Build the application
-RUN npm run build
+# Instala deps e builda
+RUN npm ci && npm run build
 
 
-################
-# FRONTEND RUNTIME
-################
+############################
+# FRONTEND - RUNTIME
+############################
 FROM node:20-alpine AS frontend-runtime
 
 WORKDIR /app
 
-# Install serve to run the app
 RUN npm install -g serve
 
-# Copy built app from builder
-COPY --from=frontend-builder /app/dist ./dist
+# copia apenas o artefato final
+COPY --from=frontend-builder /workspace/frontend/dist ./dist
 
-# Expose port
 EXPOSE 3000
 
-# Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD node -e "require('http').get('http://localhost:3000', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"
 
-# Run application
 CMD ["serve", "-s", "dist", "-l", "3000"]
 
 
-###############
-# BACKEND BUILD
-###############
+############################
+# BACKEND - BUILD
+############################
 FROM maven:3.9.6-eclipse-temurin-17 AS backend-builder
 
-WORKDIR /app
+WORKDIR /workspace
 
-# Copy pom.xml and download dependencies
-COPY backend/pom.xml .
-RUN mvn dependency:go-offline
+# Copia tudo de uma vez (será filtrado via .dockerignore)
+COPY . .
 
-# Copy source code
-COPY backend/src ./src
+# Garante que estamos na pasta correta
+WORKDIR /workspace/backend
 
-# Build the application
-RUN mvn clean package -DskipTests
+# Baixa dependências offline e builda
+RUN mvn -q -B dependency:go-offline
+RUN mvn -q -B clean package -DskipTests
 
 
-################
-# BACKEND RUNTIME
-################
+############################
+# BACKEND - RUNTIME
+############################
 FROM eclipse-temurin:17-jre-alpine AS backend-runtime
 
 WORKDIR /app
 
-# Copy JAR from builder
-COPY --from=backend-builder /app/target/*.jar app.jar
+# Copia somente o JAR gerado do backend
+COPY --from=backend-builder /workspace/backend/target/*.jar /app/app.jar
 
-# Expose port
 EXPOSE 8080
 
-# Environment variables
 ENV JAVA_OPTS="-Xmx512m -Xms256m"
 
-# Run application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/app.jar"]
