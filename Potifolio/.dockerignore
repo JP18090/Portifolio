@@ -1,0 +1,7 @@
+# Backend .dockerignore
+target/
+.git/
+.gitignore
+README.md
+node_modules/
+frontend/
