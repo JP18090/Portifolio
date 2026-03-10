@@ -9,15 +9,14 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_PROFILES_ACTIVE=render
       - JAVA_OPTS=-Xmx512m -Xms256m
+      - PORT=8080
     volumes:
-      # confirme que esse caminho existe no host e que o app lê de /app/certificados
       - ./backend/src/main/resources/certificados:/app/certificados
     networks:
       - portfolio-network
     healthcheck:
-      # Evita depender de curl (que nem sempre vem instalado)
       test: ["CMD-SHELL", "wget -qO- http://localhost:8080/api/health || exit 1"]
       interval: 30s
       timeout: 10s
@@ -29,6 +28,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.frontend
+      args:
+        VITE_API_URL: http://localhost:8080/api
     container_name: portfolio-frontend
     ports:
       - "3000:3000"
@@ -38,17 +39,9 @@ services:
     networks:
       - portfolio-network
     environment:
-      # CRA: mantém REACT_APP_*
-      - REACT_APP_API_URL=http://backend:8080/api
-      # Se for Vite, mude para:
-      # - VITE_API_URL=http://backend:8080/api
+      - PORT=3000
     restart: unless-stopped
 
 networks:
   portfolio-network:
     driver: bridge
-
-# Removida a duplicidade; deixe apenas UMA definição.
-volumes:
-  certificates:
-    driver: local

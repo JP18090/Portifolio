@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,6 +17,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.Arrays;
+
+import org.springframework.core.io.ClassPathResource;
 
 @Service
 public class CertificateService {
@@ -26,12 +30,87 @@ public class CertificateService {
     @Value("${certificate.upload.dir:certificados}")
     private String uploadDir;
 
+    // Mock data para certificados - apontando para os PDFs reais em resources/certificados/
+    private List<Certificate> getMockCertificates() {
+        return Arrays.asList(
+            Certificate.builder()
+                .id(1L)
+                .title("CCNA: Introduction to Networks (ITN)")
+                .issuer("Cisco Networking Academy")
+                .issuedAt("2026-03-05")
+                .fileName("CCNAITNUpdated20260305-31-21404e.pdf")
+                .storedFileName("CCNAITNUpdated20260305-31-21404e.pdf")
+                .contentType("application/pdf")
+                .fileSize(2048000L)
+                .build(),
+            
+            Certificate.builder()
+                .id(2L)
+                .title("Python Essentials 1")
+                .issuer("Cisco Networking Academy")
+                .issuedAt("2026-03-05")
+                .fileName("PythonEssentials1Update20260305-31-6kt0f6.pdf")
+                .storedFileName("PythonEssentials1Update20260305-31-6kt0f6.pdf")
+                .contentType("application/pdf")
+                .fileSize(1512000L)
+                .build(),
+            
+            Certificate.builder()
+                .id(3L)
+                .title("Desenvolvimento Full Stack")
+                .issuer("Udemy")
+                .issuedAt("2025-08-10")
+                .fileName("UC-6675ff66-9547-4524-b382-ededd42431e6.pdf")
+                .storedFileName("UC-6675ff66-9547-4524-b382-ededd42431e6.pdf")
+                .contentType("application/pdf")
+                .fileSize(1024000L)
+                .build(),
+            
+            Certificate.builder()
+                .id(4L)
+                .title("Programação Avançada")
+                .issuer("Udemy")
+                .issuedAt("2025-06-05")
+                .fileName("UC-affc475a-cdd5-470b-8072-6b58a333d74f.pdf")
+                .storedFileName("UC-affc475a-cdd5-470b-8072-6b58a333d74f.pdf")
+                .contentType("application/pdf")
+                .fileSize(768000L)
+                .build(),
+            
+            Certificate.builder()
+                .id(5L)
+                .title("Microsoft Power BI para Business Intelligence e Data Science")
+                .issuer("Alura")
+                .issuedAt("2025-04-12")
+                .fileName("certificate-microsoft-power-bi-para-business-intelligence-e-data-science-6462fe1b2bb04988150abc99.pdf")
+                .storedFileName("certificate-microsoft-power-bi-para-business-intelligence-e-data-science-6462fe1b2bb04988150abc99.pdf")
+                .contentType("application/pdf")
+                .fileSize(1256000L)
+                .build()
+        );
+    }
+
     public List<Certificate> getAllCertificates() {
-        return certificateRepository.findAll();
+        try {
+            List<Certificate> certificates = certificateRepository.findAll();
+            if (certificates.isEmpty()) {
+                return getMockCertificates();
+            }
+            return certificates;
+        } catch (Exception e) {
+            // Se houver erro no banco, retorna dados mockados
+            return getMockCertificates();
+        }
     }
 
     public Optional<Certificate> getCertificateById(Long id) {
-        return certificateRepository.findById(id);
+        try {
+            return certificateRepository.findById(id);
+        } catch (Exception e) {
+            return getMockCertificates().stream()
+                    .filter(c -> c.getId().equals(id))
+                    .findFirst();
+        }
     }
 
     public Certificate uploadCertificate(String title, String issuer, String issuedAt, MultipartFile file) throws IOException {
@@ -80,12 +159,67 @@ public class CertificateService {
     }
 
     public byte[] getCertificateFileContent(Long id) throws IOException {
-        Optional<Certificate> certificate = certificateRepository.findById(id);
+        // Tentar do banco de dados primeiro
+        Optional<Certificate> certificate;
+        try {
+            certificate = certificateRepository.findById(id);
+        } catch (Exception e) {
+            certificate = Optional.empty();
+        }
+
+        // Se não encontrou no banco, buscar nos mocks
+        if (!certificate.isPresent()) {
+            certificate = getMockCertificates().stream()
+                    .filter(c -> c.getId().equals(id))
+                    .findFirst();
+        }
+
         if (certificate.isPresent()) {
-            Path filePath = Paths.get(uploadDir).resolve(certificate.get().getStoredFileName());
-            return Files.readAllBytes(filePath);
+            String storedFileName = certificate.get().getStoredFileName();
+
+            // 1. Tentar ler do filesystem (uploadDir)
+            Path filePath = Paths.get(uploadDir).resolve(storedFileName);
+            if (Files.exists(filePath)) {
+                return Files.readAllBytes(filePath);
+            }
+
+            // 2. Tentar ler do classpath (resources/certificados/)
+            try {
+                ClassPathResource resource = new ClassPathResource("certificados/" + storedFileName);
+                if (resource.exists()) {
+                    try (InputStream is = resource.getInputStream()) {
+                        return is.readAllBytes();
+                    }
+                }
+            } catch (Exception e) {
+                // fallback
+            }
+
+            return createEmptyPDF();
         }
         throw new RuntimeException("Certificate not found");
+    }
+
+    public byte[] getCertificateFileByName(String fileName) throws IOException {
+        // 1. Tentar do classpath (resources/certificados/)
+        try {
+            ClassPathResource resource = new ClassPathResource("certificados/" + fileName);
+            if (resource.exists()) {
+                try (InputStream is = resource.getInputStream()) {
+                    return is.readAllBytes();
+                }
+            }
+        } catch (Exception e) {
+            // fallback
+        }
+
+        // 2. Tentar do filesystem (uploadDir)
+        Path filePath = Paths.get(uploadDir).resolve(fileName);
+        if (Files.exists(filePath)) {
+            return Files.readAllBytes(filePath);
+        }
+
+        return null;
     }
 
     public Certificate updateCertificate(Long id, String title, String issuer, String issuedAt) {
@@ -98,5 +232,14 @@ public class CertificateService {
             return certificateRepository.save(certificate);
         }
         throw new RuntimeException("Certificate not found");
+    }
+
+    // Método auxiliar para criar um PDF vazio como fallback
+    private byte[] createEmptyPDF() {
+        String minimalPdf = "%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj\n" +
+                "2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj\n" +
+                "3 0 obj<</Type/Page/MediaBox[0 0 612 792]/Parent 2 0 R>>endobj\n" +
+                "xref\n0 4\ntrailer<</Size 4/Root 1 0 R>>\nstartxref\n0\n%%EOF";
+        return minimalPdf.getBytes();
     }
 }

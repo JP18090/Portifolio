@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/certificates")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://portifolio-1-grk0.onrender.com"})
 public class CertificateController {
 
     @Autowired
@@ -99,6 +99,23 @@ public class CertificateController {
         }
     }
 
+    @GetMapping("/file/{fileName}")
+    public ResponseEntity<byte[]> downloadByFileName(@PathVariable String fileName) {
+        try {
+            byte[] content = certificateService.getCertificateFileByName(fileName);
+            if (content == null || content.length == 0) {
+                return ResponseEntity.notFound().build();
+            }
+            String contentType = fileName.endsWith(".pdf") ? "application/pdf" : "application/octet-stream";
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=" + fileName)
+                    .body(content);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     private CertificateDTO convertToDTO(Certificate certificate) {
         return CertificateDTO.builder()
                 .id(certificate.getId())
@@ -108,7 +125,7 @@ public class CertificateController {
                 .fileName(certificate.getFileName())
                 .contentType(certificate.getContentType())
                 .fileSize(certificate.getFileSize())
-                .createdAt(certificate.getCreatedAt().toString())
+                .createdAt(certificate.getCreatedAt() != null ? certificate.getCreatedAt().toString() : "")
                 .build();
     }
 }

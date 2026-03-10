@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/projects")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "https://portifolio-1-grk0.onrender.com"})
 public class ProjectController {
 
     @Autowired

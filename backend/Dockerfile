@@ -21,16 +21,20 @@ FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 
 # Criar diretório para certificados
-RUN mkdir -p src/main/resources/certificados
+RUN mkdir -p /app/certificados
 
 # Copiar JAR do estágio anterior
 COPY --from=builder /app/target/*.jar app.jar
 
-# Expor porta
+# Copiar certificados para o container
+COPY src/main/resources/certificados/ /app/certificados/
+
+# Render usa a variável PORT
+ENV JAVA_OPTS="-Xmx512m -Xms256m"
+ENV SPRING_PROFILES_ACTIVE=render
+
+# Expor porta (Render define PORT dinamicamente)
 EXPOSE 8080
 
-# Variáveis de ambiente
-ENV JAVA_OPTS="-Xmx512m -Xms256m"
-
 # Comando de inicialização
-CMD ["java", "-jar", "app.jar"]
+CMD ["sh", "-c", "java $JAVA_OPTS -jar app.jar --server.port=${PORT:-8080}"]
