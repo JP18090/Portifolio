@@ -68,41 +68,38 @@ const ProjectsSection = () => {
           description: "Website de portfólio desenvolvido com React, TypeScript e Tailwind CSS. Integração com backend Spring Boot e banco de dados H2.",
           technologies: ["React", "TypeScript", "Tailwind CSS", "Spring Boot", "H2 Database"],
           github: "https://github.com/JP18090/Portifolio",
-          liveUrl: "https://portfolio-demo.com",
+          liveUrl: "https://portifolio-1-grk0.onrender.com/",
         },
         {
             id: 2,
             name: "Portal de Estágios",
             description: "Plataforma web para gestão de vagas de estágio conectando estudantes, empresas e administradores. API REST com autenticação, dashboards e geração automática de currículo.",
             technologies: ["Java", "Spring Boot", "React", "REST API", "H2 Database", "Swagger", "BCrypt"],
-            github: "https://github.com/JP18090",
+            github: "https://github.com/Danibart54/Projeto-Ps2",
             },
             {
             id: 3,
             name: "Agente de IA Integrado ao HubSpot CRM",
             description: "Agente de Inteligência Artificial conectado ao HubSpot com CRUD completo acessível via WhatsApp, permitindo consulta, criação e atualização de registros no CRM.",
-            technologies: ["Python", "HubSpot API", "WhatsApp Integration", "n8n", "Automation", "REST APIs"],
+            technologies: ["Python", "HubSpot API", "WhatsApp Integration", "n8n", "Automation"],
             },
             {
             id: 4,
             name: "Automações em Python",
             description: "Scripts e ferramentas de automação para otimização de processos e integração com APIs externas, realizando processamento e manipulação de dados.",
-            technologies: ["Python", "REST APIs", "Pandas", "Automation"],
-            github: "https://github.com/JP18090",
+            technologies: ["Python", "REST APIs", "Pandas", "Automation"]
             },
             {
             id: 5,
             name: "CinemaApp",
             description: "Sistema acadêmico em Java para gestão de espetáculos e venda de ingressos com cadastro de clientes, controle de disponibilidade e menus interativos.",
-            technologies: ["Java", "OOP", "ArrayList", "Business Logic"],
-            github: "https://github.com/JP18090",
+            technologies: ["Java", "POO", "ArrayList", "Business Logic"]
             },
             {
             id: 6,
             name: "Sistema de Estacionamento",
             description: "Aplicação em Python para gerenciamento de estacionamento com controle de entradas e saídas, cálculo automático de tarifas e geração de relatórios.",
-            technologies: ["Python", "Data Structures", "Business Logic", "CLI Application"],
-            github: "https://github.com/JP18090",
+            technologies: ["Python", "Data Structures", "Business Logic", "CLI Application"]
             }
       ]
       setProjects(demoProjects)
