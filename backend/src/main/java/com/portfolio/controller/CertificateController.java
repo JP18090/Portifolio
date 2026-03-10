@@ -99,7 +99,7 @@ public class CertificateController {
         }
     }
 
-    @GetMapping("/file/{fileName}")
+    @GetMapping("/file/{fileName:.+}")
     public ResponseEntity<byte[]> downloadByFileName(@PathVariable String fileName) {
         try {
             byte[] content = certificateService.getCertificateFileByName(fileName);

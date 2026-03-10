@@ -38,6 +38,7 @@ yarn-error.log*
 # Certificates and uploaded files
 backend/src/main/resources/certificados/*
 !backend/src/main/resources/certificados/.gitkeep
+!backend/src/main/resources/certificados/*.pdf
 
 # Docker
 docker-compose.override.yml
