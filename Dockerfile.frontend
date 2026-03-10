@@ -3,36 +3,36 @@ FROM node:20-alpine AS frontend-builder
 
 WORKDIR /app
 
-# Copy package files
-COPY ./package.json ./package-lock.json 
+# 1) Copia os manifests do frontend (estão dentro da pasta frontend/)
+COPY frontend/package*.json ./
 
-# Install dependencies
+# 2) Instala dependências com cache eficiente
 RUN npm ci
 
-# Copy source code
-COPY frontend .
+# 3) Copia o restante do código do frontend
+COPY frontend/ .
 
-# Build the application
+# 4) Build de produção
 RUN npm run build
 
-# Stage 2: Runtime frontend
+
+# Stage 2: Runtime (servidor estático)
 FROM node:20-alpine
 
 WORKDIR /app
 
-# Install serve to run the app
+# Servidor estático
 RUN npm install -g serve
 
-# Copy built app from builder
+# Copia apenas o build
 COPY --from=frontend-builder /app/dist ./dist
 
-# Expose port
+# Porta padrão; no Render use ${PORT}
 EXPOSE 3000
 
-# Health check
+# Healthcheck simples
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD node -e "require('http').get('http://localhost:3000', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"
+  CMD node -e "require('http').get('http://localhost:${PORT:-3000}', (r) => { if (r.statusCode !== 200) throw new Error(r.statusCode) })"
 
-# Run application
-CMD ["serve", "-s", "dist", "-l", "3000"]
-
+# Importante: usar a variável PORT do Render
+CMD ["sh", "-c", "serve -s dist -l ${PORT:-3000}"]
