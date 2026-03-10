@@ -1,8 +1,7 @@
 import { motion } from "framer-motion"
 import { ExternalLink, Github } from "lucide-react"
 import { useState, useEffect } from "react"
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+import { API_BASE_URL } from "../config"
 
 interface Project {
   id: number

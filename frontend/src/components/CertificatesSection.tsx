@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Award, ExternalLink } from "lucide-react";
 import { useState, useEffect } from "react";
+import { API_BASE_URL } from "../config";
 
 interface Certificate {
   id: number;
@@ -47,8 +48,6 @@ const mockCertificates: Certificate[] = [
     fileName: "certificate-microsoft-power-bi-para-business-intelligence-e-data-science-6462fe1b2bb04988150abc99.pdf",
   },
 ];
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 const CertificatesSection = () => {
   const [certificates, setCertificates] = useState<Certificate[]>([]);
