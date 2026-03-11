@@ -51,6 +51,7 @@ const mockCertificates: Certificate[] = [
 
 const CertificatesSection = () => {
   const [certificates, setCertificates] = useState<Certificate[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/certificates`)
@@ -67,6 +68,9 @@ const CertificatesSection = () => {
       })
       .catch(() => {
         setCertificates(mockCertificates);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, []);
 
@@ -93,7 +97,22 @@ const CertificatesSection = () => {
           <div className="glow-line w-24 mb-12" />
         </motion.div>
 
-        {certificates.length > 0 ? (
+        {isLoading && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-8 mb-6"
+          >
+            <div className="inline-flex items-center gap-3 px-6 py-4 rounded-xl glass-card border border-primary/20">
+              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-primary border-transparent" />
+              <p className="text-muted-foreground text-sm">
+                Aviso: os certificados estão sendo requisitados e já serão renderizados aqui...aguarde um instante
+              </p>
+            </div>
+          </motion.div>
+        )}
+
+        {!isLoading && certificates.length > 0 ? (
           <div className="space-y-4">
             {certificates.map((cert, index) => (
               <motion.div
@@ -130,14 +149,14 @@ const CertificatesSection = () => {
               </motion.div>
             ))}
           </div>
-        ) : (
+        ) : !isLoading ? (
           <div className="text-center py-16">
             <Award className="w-12 h-12 text-muted-foreground/40 mx-auto mb-4" />
             <p className="text-muted-foreground">
               Nenhum certificado disponível no momento.
             </p>
           </div>
-        )}
+        ) : null}
       </div>
     </section>
   );
