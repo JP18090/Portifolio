@@ -1,7 +1,5 @@
 import { motion } from "framer-motion"
 import { ExternalLink, Github } from "lucide-react"
-import { useState, useEffect } from "react"
-import { API_BASE_URL } from "../config"
 
 interface Project {
   id: number
@@ -17,97 +15,52 @@ interface Project {
   imageUrl?: string
 }
 
+const defaultProjects: Project[] = [
+  {
+    id: 1,
+    name: "Portfólio Pessoal",
+    description: "Website de portfólio desenvolvido com React, TypeScript e Tailwind CSS. Integração com backend Spring Boot e banco de dados H2.",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "Spring Boot", "H2 Database"],
+    github: "https://github.com/JP18090/Portifolio",
+    liveUrl: "https://portifolio-1-grk0.onrender.com/",
+  },
+  {
+    id: 2,
+    name: "Portal de Estágios",
+    description: "Plataforma web para gestão de vagas de estágio conectando estudantes, empresas e administradores. API REST com autenticação, dashboards e geração automática de currículo.",
+    technologies: ["Java", "Spring Boot", "React", "REST API", "H2 Database", "Swagger", "BCrypt"],
+    github: "https://github.com/Danibart54/Projeto-Ps2",
+  },
+  {
+    id: 3,
+    name: "Agente de IA Integrado ao HubSpot CRM",
+    description: "Agente de Inteligência Artificial conectado ao HubSpot com CRUD completo acessível via WhatsApp, permitindo consulta, criação e atualização de registros no CRM.",
+    technologies: ["Python", "HubSpot API", "WhatsApp Integration", "n8n", "Automation"],
+  },
+  {
+    id: 4,
+    name: "Automações em Python",
+    description: "Scripts e ferramentas de automação para otimização de processos e integração com APIs externas, realizando processamento e manipulação de dados.",
+    technologies: ["Python", "REST APIs", "Pandas", "Automation"],
+  },
+  {
+    id: 5,
+    name: "CinemaApp",
+    description: "Sistema acadêmico em Java para gestão de espetáculos e venda de ingressos com cadastro de clientes, controle de disponibilidade e menus interativos.",
+    technologies: ["Java", "POO", "ArrayList", "Business Logic"],
+    github: "https://github.com/JP18090/Cineminha",
+  },
+  {
+    id: 6,
+    name: "Sistema de Estacionamento",
+    description: "Aplicação em Python para gerenciamento de estacionamento com controle de entradas e saídas, cálculo automático de tarifas e geração de relatórios.",
+    technologies: ["Python", "Data Structures", "Business Logic", "CLI Application"],
+    github: "https://github.com/JP18090/ProjPython",
+  },
+]
+
 const ProjectsSection = () => {
-  const [projects, setProjects] = useState<Project[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  // Normalizar projeto da API
-  const normalizeProject = (project: any): Project => {
-    const name = project.name || project.title || "Sem título"
-    const techs = typeof project.technologies === "string" 
-      ? project.technologies.split(",").map((t: string) => t.trim())
-      : Array.isArray(project.technologies) ? project.technologies : []
-    
-    return {
-      ...project,
-      name,
-      description: project.description || "",
-      technologies: techs,
-      github: project.github || project.repositoryUrl,
-      liveUrl: project.liveUrl || project.deployedUrl
-    }
-  }
-
-  useEffect(() => {
-    fetchProjects()
-  }, [])
-
-  const fetchProjects = async () => {
-    try {
-      setIsLoading(true)
-      const response = await fetch(`${API_BASE_URL}/projects`)
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-
-      const data = await response.json()
-      if (Array.isArray(data)) {
-        const normalizedProjects = data.map(normalizeProject)
-        setProjects(normalizedProjects)
-      }
-      setError(null)
-    } catch (err) {
-      console.error("Erro ao carregar projetos:", err)
-      // Projetos de demonstração caso o backend não esteja disponível
-      const demoProjects: Project[] = [
-        {
-          id: 1,
-          name: "Portfólio Pessoal",
-          description: "Website de portfólio desenvolvido com React, TypeScript e Tailwind CSS. Integração com backend Spring Boot e banco de dados H2.",
-          technologies: ["React", "TypeScript", "Tailwind CSS", "Spring Boot", "H2 Database"],
-          github: "https://github.com/JP18090/Portifolio",
-          liveUrl: "https://portifolio-1-grk0.onrender.com/",
-        },
-        {
-            id: 2,
-            name: "Portal de Estágios",
-            description: "Plataforma web para gestão de vagas de estágio conectando estudantes, empresas e administradores. API REST com autenticação, dashboards e geração automática de currículo.",
-            technologies: ["Java", "Spring Boot", "React", "REST API", "H2 Database", "Swagger", "BCrypt"],
-            github: "https://github.com/Danibart54/Projeto-Ps2",
-            },
-            {
-            id: 3,
-            name: "Agente de IA Integrado ao HubSpot CRM",
-            description: "Agente de Inteligência Artificial conectado ao HubSpot com CRUD completo acessível via WhatsApp, permitindo consulta, criação e atualização de registros no CRM.",
-            technologies: ["Python", "HubSpot API", "WhatsApp Integration", "n8n", "Automation"],
-            },
-            {
-            id: 4,
-            name: "Automações em Python",
-            description: "Scripts e ferramentas de automação para otimização de processos e integração com APIs externas, realizando processamento e manipulação de dados.",
-            technologies: ["Python", "REST APIs", "Pandas", "Automation"]
-            },
-            {
-            id: 5,
-            name: "CinemaApp",
-            description: "Sistema acadêmico em Java para gestão de espetáculos e venda de ingressos com cadastro de clientes, controle de disponibilidade e menus interativos.",
-            technologies: ["Java", "POO", "ArrayList", "Business Logic"]
-            },
-            {
-            id: 6,
-            name: "Sistema de Estacionamento",
-            description: "Aplicação em Python para gerenciamento de estacionamento com controle de entradas e saídas, cálculo automático de tarifas e geração de relatórios.",
-            technologies: ["Python", "Data Structures", "Business Logic", "CLI Application"]
-            }
-      ]
-      setProjects(demoProjects)
-      setError(null) // Não mostrar erro, usar dados mockados
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  const projects = defaultProjects
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -145,20 +98,7 @@ const ProjectsSection = () => {
           <div className="glow-line w-24 mb-12" />
         </motion.div>
 
-        {isLoading && !projects.length ? (
-          <div className="flex justify-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-primary-color border-transparent"></div>
-          </div>
-        ) : projects.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-12 text-muted-foreground"
-          >
-            <p>Nenhum projeto disponível no momento.</p>
-          </motion.div>
-        ) : (
-          <motion.div
+        <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -234,7 +174,6 @@ const ProjectsSection = () => {
               </motion.div>
             ))}
           </motion.div>
-        )}
       </div>
     </section>
   )

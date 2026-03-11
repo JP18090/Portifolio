@@ -30,7 +30,7 @@ const AboutSection = () => {
               <User className="w-8 h-8 text-primary" />
             </div>
             <p className="text-foreground/80 leading-relaxed text-lg font-light">
-              Olá! Sou José, estudante de Sistemas de Informação (5º semestre) na Universidade Presbiteriana Mackenzie,
+              Olá! Sou José, estudante de Sistemas de Informação <a href="https://www.mackenzie.br/graduacao/sao-paulo-higienopolis/sistemas-de-informacao/matriz-curricular" className="text-primary underline" target="_blank" rel="noopener noreferrer">(5º semestre)</a> na Universidade Presbiteriana Mackenzie,
               atualmente atuando como Estagiário de TI na Brasol. Minha paixão está em resolver problemas complexos através da tecnologia,
               com foco em arquitetura de dados, automação e desenvolvimento de soluções integradas.
             </p>
