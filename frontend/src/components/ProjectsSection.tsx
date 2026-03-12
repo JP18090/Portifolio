@@ -46,7 +46,7 @@ const defaultProjects: Project[] = [
   {
     id: 5,
     name: "CinemaApp",
-    description: "Sistema acadêmico em Java para gestão de espetáculos e venda de ingressos com cadastro de clientes, controle de disponibilidade e menus interativos.",
+    description: "Sistema em Java para gestão de espetáculos e venda de ingressos com cadastro de clientes, controle de disponibilidade e menus interativos.",
     technologies: ["Java", "POO", "ArrayList", "Business Logic"],
     github: "https://github.com/JP18090/Cineminha",
   },
