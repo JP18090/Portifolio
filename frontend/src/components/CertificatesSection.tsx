@@ -47,6 +47,13 @@ const mockCertificates: Certificate[] = [
     issuedAt: "2024-07-31",
     fileName: "certificate-microsoft-power-bi-para-business-intelligence-e-data-science-6462fe1b2bb04988150abc99.pdf",
   },
+  {
+    id: 6,
+    title: "AWS Academy Cloud Foundations",
+    issuer: "AWS Academy",
+    issuedAt: "2026-03-15",
+    fileName: "AWS_Academy_Graduate___Cloud_Foundations___Training_Badge_Badge20260315-33-fl43ut.pdf",
+  },
 ];
 
 const CertificatesSection = () => {
