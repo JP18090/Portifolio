@@ -97,8 +97,7 @@ public class CertificateService {
                 .storedFileName("AWS_Academy_Graduate___Cloud_Foundations___Training_Badge_Badge20260315-33-fl43ut.pdf")
                 .contentType("application/pdf")
                 .fileSize(1024000L)
-                .build()
-        );
+                .build(),
             Certificate.builder()
                 .id(7L)
                 .title("Python Essentials 2")
@@ -109,6 +108,7 @@ public class CertificateService {
                 .contentType("application/pdf")
                 .fileSize(1512000L)
                 .build(),
+        );
     }
 
     public List<Certificate> getAllCertificates() {
