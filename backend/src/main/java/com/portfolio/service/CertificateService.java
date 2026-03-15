@@ -81,11 +81,22 @@ public class CertificateService {
                 .id(5L)
                 .title("Microsoft Power BI para Business Intelligence e Data Science")
                 .issuer("Alura")
-                .issuedAt("2025-04-12")
+                .issuedAt("2024-07-31")
                 .fileName("certificate-microsoft-power-bi-para-business-intelligence-e-data-science-6462fe1b2bb04988150abc99.pdf")
                 .storedFileName("certificate-microsoft-power-bi-para-business-intelligence-e-data-science-6462fe1b2bb04988150abc99.pdf")
                 .contentType("application/pdf")
                 .fileSize(1256000L)
+                .build(),
+
+            Certificate.builder()
+                .id(6L)
+                .title("AWS Academy Cloud Foundations")
+                .issuer("AWS Academy")
+                .issuedAt("2026-03-15")
+                .fileName("AWS_Academy_Graduate___Cloud_Foundations___Training_Badge_Badge20260315-33-fl43ut.pdf")
+                .storedFileName("AWS_Academy_Graduate___Cloud_Foundations___Training_Badge_Badge20260315-33-fl43ut.pdf")
+                .contentType("application/pdf")
+                .fileSize(1024000L)
                 .build()
         );
     }
