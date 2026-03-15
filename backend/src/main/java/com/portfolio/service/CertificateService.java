@@ -107,7 +107,7 @@ public class CertificateService {
                 .storedFileName("PythonEssentials2Update20260315-33-qox2vh.pdf")
                 .contentType("application/pdf")
                 .fileSize(1512000L)
-                .build(),
+                .build()
         );
     }
 
