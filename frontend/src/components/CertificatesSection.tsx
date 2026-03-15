@@ -54,6 +54,13 @@ const mockCertificates: Certificate[] = [
     issuedAt: "2026-03-15",
     fileName: "AWS_Academy_Graduate___Cloud_Foundations___Training_Badge_Badge20260315-33-fl43ut.pdf",
   },
+  {
+    id: 7,
+    title: "Python Essentials 2",
+    issuer: "Cisco Networking Academy",
+    issuedAt: "2026-03-15",
+    fileName: "PythonEssentials2Update20260315-33-qox2vh.pdf",
+  },
 ];
 
 const CertificatesSection = () => {

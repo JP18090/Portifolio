@@ -99,6 +99,16 @@ public class CertificateService {
                 .fileSize(1024000L)
                 .build()
         );
+            Certificate.builder()
+                .id(7L)
+                .title("Python Essentials 2")
+                .issuer("Cisco Networking Academy")
+                .issuedAt("2026-03-15")
+                .fileName("PythonEssentials2Update20260315-33-qox2vh.pdf")
+                .storedFileName("PythonEssentials2Update20260315-33-qox2vh.pdf")
+                .contentType("application/pdf")
+                .fileSize(1512000L)
+                .build(),
     }
 
     public List<Certificate> getAllCertificates() {
