@@ -61,6 +61,20 @@ const mockCertificates: Certificate[] = [
     issuedAt: "2026-03-15",
     fileName: "PythonEssentials2Update20260315-33-qox2vh.pdf",
   },
+  {
+    id: 8,
+    title: "Docker Completo do Zero ao Avançado",
+    issuer: "Udemy",
+    issuedAt: "2026-03-17",
+    fileName: "UC-62dfdd6e-bde0-4701-8703-00093a69756b.pdf",
+  },
+  {
+    id: 9,
+    title: "Introdução à IoT",
+    issuer: "Cisco Networking Academy",
+    issuedAt: "2026-03-19",
+    fileName: "IntrotoIoTUpdate20260320-31-9ylk8p.pdf",
+  },
 ];
 
 const CertificatesSection = () => {
