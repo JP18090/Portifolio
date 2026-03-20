@@ -107,6 +107,27 @@ public class CertificateService {
                 .storedFileName("PythonEssentials2Update20260315-33-qox2vh.pdf")
                 .contentType("application/pdf")
                 .fileSize(1512000L)
+                .build(),
+            Certificate.builder()
+                .id(8L)
+                .title("Introduction to Internet of Things")
+                .issuer("Cisco Networking Academy")
+                .issuedAt("2026-03-19")
+                .fileName("IntrotoIoTUpdate20260320-31-9ylk8p.pdf")
+                .storedFileName("IntrotoIoTUpdate20260320-31-9ylk8p.pdf")
+                .contentType("application/pdf")
+                .fileSize(1100000L)
+                .build(),
+            
+            Certificate.builder()
+                .id(9L)
+                .title("Docker Completo do Zero ao Avançado")
+                .issuer("Udemy")
+                .issuedAt("2026-03-17")
+                .fileName("UC-62dfdd6e-bde0-4701-8703-00093a69756b.pdf")
+                .storedFileName("UC-62dfdd6e-bde0-4701-8703-00093a69756b.pdf")
+                .contentType("application/pdf")
+                .fileSize(900000L)
                 .build()
         );
     }
