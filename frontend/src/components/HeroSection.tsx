@@ -1,7 +1,11 @@
 import { motion } from "framer-motion"
 import { ChevronDown } from "lucide-react"
+import { useLanguage } from "../i18n/LanguageContext"
+import { translations, t } from "../i18n/translations"
 
 const HeroSection = () => {
+  const { language } = useLanguage()
+
   return (
     <section className="relative min-h-screen flex items-center justify-center section-padding overflow-hidden pt-20">
       {/* Subtle background gradient */}
@@ -19,7 +23,7 @@ const HeroSection = () => {
           transition={{ delay: 0.3 }}
           className="text-primary font-body text-sm tracking-[0.3em] uppercase mb-6"
         >
-          Portfólio Pessoal
+          {t(translations.hero.subtitle, language)}
         </motion.p>
         
         <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold leading-tight mb-6">
@@ -27,15 +31,15 @@ const HeroSection = () => {
           <span className="text-gradient">Pedro</span>
           <br />
         </h1>
-        <h3><span className="text-foreground">Developer</span></h3>
+        <h3><span className="text-foreground">{t(translations.hero.role, language)}</span></h3>
 
         
         <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light">
-          Estagiário de TI · Python & Java · Power BI & Dados
+          {t(translations.hero.tagline, language)}
         </p>
 
         <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light">
-          "Programar é como viver: você corrige erros, aprende com os desafios e evolui a cada nova linha de código." - José Pedro
+          {t(translations.hero.quote, language)}
         </p>
 
         <motion.div
@@ -48,13 +52,13 @@ const HeroSection = () => {
             href="#sobre"
             className="px-8 py-3 bg-primary text-primary-foreground font-medium rounded-lg hover:opacity-90 transition-opacity"
           >
-            Sobre Mim
+            {t(translations.hero.aboutMe, language)}
           </a>
           <a
             href="#certificados"
             className="px-8 py-3 border border-border text-foreground font-medium rounded-lg hover:bg-secondary transition-colors"
           >
-            Certificados
+            {t(translations.hero.certificatesBtn, language)}
           </a>
         </motion.div>
       </motion.div>

@@ -1,5 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion"
 import { X, ChevronLeft } from "lucide-react"
+import { useLanguage } from "../i18n/LanguageContext"
+import { translations, t } from "../i18n/translations"
 
 interface ExperienceDetails {
   role: string
@@ -17,6 +19,7 @@ interface ExperienceDetailsModalProps {
 }
 
 const ExperienceDetailsModal = ({ isOpen, experience, onClose }: ExperienceDetailsModalProps) => {
+  const { language } = useLanguage()
   if (!experience) return null
 
   return (
@@ -69,7 +72,7 @@ const ExperienceDetailsModal = ({ isOpen, experience, onClose }: ExperienceDetai
             >
               {/* Description */}
               <div>
-                <h3 className="text-2xl font-semibold text-foreground mb-4">Sobre</h3>
+                <h3 className="text-2xl font-semibold text-foreground mb-4">{t(translations.experienceModal.about, language)}</h3>
                 <p className="text-foreground/70 leading-relaxed text-lg">
                   {experience.description}
                 </p>
@@ -77,7 +80,7 @@ const ExperienceDetailsModal = ({ isOpen, experience, onClose }: ExperienceDetai
 
               {/* Hard Skills */}
               <div>
-                <h3 className="text-2xl font-semibold text-foreground mb-6">Hard Skills</h3>
+                <h3 className="text-2xl font-semibold text-foreground mb-6">{t(translations.experience.hardSkills, language)}</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                   {experience.hardSkills.map((skill, idx) => (
                     <motion.div
@@ -96,7 +99,7 @@ const ExperienceDetailsModal = ({ isOpen, experience, onClose }: ExperienceDetai
 
               {/* Soft Skills */}
               <div>
-                <h3 className="text-2xl font-semibold text-foreground mb-6">Soft Skills</h3>
+                <h3 className="text-2xl font-semibold text-foreground mb-6">{t(translations.experience.softSkills, language)}</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                   {experience.softSkills.map((skill, idx) => (
                     <motion.div
@@ -119,7 +122,7 @@ const ExperienceDetailsModal = ({ isOpen, experience, onClose }: ExperienceDetai
                   onClick={onClose}
                   className="px-8 py-3 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors font-medium"
                 >
-                  Fechar
+                  {t(translations.experienceModal.close, language)}
                 </button>
               </div>
             </motion.div>

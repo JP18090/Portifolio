@@ -1,7 +1,11 @@
 import { motion } from "framer-motion"
 import { User, MapPin, Mail } from "lucide-react"
+import { useLanguage } from "../i18n/LanguageContext"
+import { translations, t } from "../i18n/translations"
 
 const AboutSection = () => {
+  const { language } = useLanguage()
+
   return (
     <section id="sobre" className="section-padding">
       <div className="max-w-5xl mx-auto">
@@ -11,9 +15,9 @@ const AboutSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <p className="text-primary text-sm tracking-[0.3em] uppercase mb-3 font-body">01</p>
+          <p className="text-primary text-sm tracking-[0.3em] uppercase mb-3 font-body">{t(translations.about.sectionNumber, language)}</p>
           <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
-            Sobre Mim
+            {t(translations.about.title, language)}
           </h2>
           <div className="glow-line w-24 mb-12" />
         </motion.div>
@@ -30,14 +34,14 @@ const AboutSection = () => {
               <User className="w-8 h-8 text-primary" />
             </div>
             <p className="text-foreground/80 leading-relaxed text-lg font-light">
-              Olá! Sou José, estudante de Sistemas de Informação <a href="https://www.mackenzie.br/graduacao/sao-paulo-higienopolis/sistemas-de-informacao/matriz-curricular" className="text-primary underline" target="_blank" rel="noopener noreferrer">(5º semestre)</a> na Universidade Presbiteriana Mackenzie,
-              atualmente atuando como Estagiário de TI na Brasol. Minha paixão está em resolver problemas complexos através da tecnologia,
-              com foco em arquitetura de dados, automação e desenvolvimento de soluções integradas.
+              {t(translations.about.bio1, language)}{" "}
+              <a href="https://www.mackenzie.br/graduacao/sao-paulo-higienopolis/sistemas-de-informacao/matriz-curricular" className="text-primary underline" target="_blank" rel="noopener noreferrer">
+                {t(translations.about.bio1Link, language)}
+              </a>{" "}
+              {t(translations.about.bio1Rest, language)}
             </p>
             <p className="text-foreground/80 leading-relaxed text-lg font-light mt-4">
-              Trabalho com ERP, análise de bancos de dados, desenvolvimento em Python e Java, criação de dashboards em Power BI
-              e IA para otimização operacional. Acredito que desenvolvimento técnico exige disciplina, responsabilidade e visão sistêmica.
-              Vamos crescer juntos? Explore meu portfólio!
+              {t(translations.about.bio2, language)}
             </p>
           </motion.div>
 
@@ -51,21 +55,21 @@ const AboutSection = () => {
             <div className="glass-card rounded-xl p-6 flex items-center gap-4">
               <MapPin className="w-5 h-5 text-primary flex-shrink-0" />
               <div>
-                <p className="text-muted-foreground text-sm">Localização</p>
-                <p className="text-foreground font-medium">São Paulo, Brasil</p>
+                <p className="text-muted-foreground text-sm">{t(translations.about.location, language)}</p>
+                <p className="text-foreground font-medium">{t(translations.about.locationValue, language)}</p>
               </div>
             </div>
             <div className="glass-card rounded-xl p-6 flex items-center gap-4">
               <Mail className="w-5 h-5 text-primary flex-shrink-0" />
               <div>
-                <p className="text-muted-foreground text-sm">Email</p>
+                <p className="text-muted-foreground text-sm">{t(translations.about.email, language)}</p>
                 <p className="text-foreground font-medium">pedrotkatchuk@gmail.com</p>
               </div>
             </div>
             <div className="glass-card rounded-xl p-6">
-              <p className="text-muted-foreground text-sm mb-3">Habilidades Principais</p>
+              <p className="text-muted-foreground text-sm mb-3">{t(translations.about.mainSkills, language)}</p>
               <div className="flex flex-wrap gap-2">
-                {["Python", "Java", "JavaSpring-boot", "SQL", "Power BI", "ERP", "APIs REST", "React", "Automação"].map((skill) => (
+                {translations.about.skills[language].map((skill) => (
                   <span
                     key={skill}
                     className="px-3 py-1 text-sm rounded-full bg-primary/10 text-primary border border-primary/20"

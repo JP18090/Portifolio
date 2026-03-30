@@ -1,5 +1,7 @@
 import { motion } from "framer-motion"
 import { ExternalLink, Github } from "lucide-react"
+import { useLanguage } from "../i18n/LanguageContext"
+import { translations, t } from "../i18n/translations"
 
 interface Project {
   id: number
@@ -61,6 +63,8 @@ const defaultProjects: Project[] = [
 
 const ProjectsSection = () => {
   const projects = defaultProjects
+  const { language } = useLanguage()
+  const projectTranslations = translations.projects.items
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -91,9 +95,9 @@ const ProjectsSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <p className="text-primary text-sm tracking-[0.3em] uppercase mb-3 font-body">04</p>
+          <p className="text-primary text-sm tracking-[0.3em] uppercase mb-3 font-body">{t(translations.projects.sectionNumber, language)}</p>
           <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
-            Projetos
+            {t(translations.projects.title, language)}
           </h2>
           <div className="glow-line w-24 mb-12" />
         </motion.div>
@@ -105,19 +109,19 @@ const ProjectsSection = () => {
             viewport={{ once: true }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
-            {projects.map((project) => (
+            {projects.map((project, idx) => (
               <motion.div key={project.id} variants={itemVariants}>
                 <div className="group glass-card rounded-xl p-6 h-full flex flex-col hover:border-primary/50 transition-colors">
                   {/* Header */}
                   <div className="mb-4">
                     <h3 className="text-lg md:text-xl font-display font-semibold text-foreground group-hover:text-primary transition-colors">
-                      {project.name}
+                      {projectTranslations[idx] ? t(projectTranslations[idx].name, language) : project.name}
                     </h3>
                   </div>
 
                   {/* Description */}
                   <p className="text-foreground/70 text-sm leading-relaxed flex-1 mb-4">
-                    {project.description}
+                    {projectTranslations[idx] ? t(projectTranslations[idx].description, language) : project.description}
                   </p>
 
                   {/* Technologies */}
@@ -166,7 +170,7 @@ const ProjectsSection = () => {
                         className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 text-primary hover:bg-primary hover:text-background transition-colors text-sm font-medium"
                       >
                         <ExternalLink className="w-4 h-4" />
-                        Ver Projeto
+                        {t(translations.projects.viewProject, language)}
                       </a>
                     )}
                   </div>

@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { Award, ExternalLink } from "lucide-react";
 import { useState, useEffect } from "react";
 import { API_BASE_URL } from "../config";
+import { useLanguage } from "../i18n/LanguageContext";
+import { translations, t } from "../i18n/translations";
 
 interface Certificate {
   id: number;
@@ -80,6 +82,7 @@ const mockCertificates: Certificate[] = [
 const CertificatesSection = () => {
   const [certificates, setCertificates] = useState<Certificate[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { language } = useLanguage();
 
   useEffect(() => {
     fetch(`${API_BASE_URL}/certificates`)
@@ -118,9 +121,9 @@ const CertificatesSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <p className="text-primary text-sm tracking-[0.3em] uppercase mb-3 font-body">03</p>
+          <p className="text-primary text-sm tracking-[0.3em] uppercase mb-3 font-body">{t(translations.certificates.sectionNumber, language)}</p>
           <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
-            Cursos & Certificados
+            {t(translations.certificates.title, language)}
           </h2>
           <div className="glow-line w-24 mb-12" />
         </motion.div>
@@ -134,7 +137,7 @@ const CertificatesSection = () => {
             <div className="inline-flex items-center gap-3 px-6 py-4 rounded-xl glass-card border border-primary/20">
               <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-primary border-transparent" />
               <p className="text-muted-foreground text-sm">
-                Aviso: os certificados estão sendo requisitados e já serão renderizados aqui...aguarde um instante
+                {t(translations.certificates.loading, language)}
               </p>
             </div>
           </motion.div>
@@ -156,8 +159,12 @@ const CertificatesSection = () => {
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-foreground font-semibold text-base truncate">{cert.title}</h3>
-                  <p className="text-muted-foreground text-sm truncate">{cert.issuer || "Certificado"}</p>
+                  <h3 className="text-foreground font-semibold text-base truncate">
+                    {translations.certificates.mockTitles[index]
+                      ? t(translations.certificates.mockTitles[index], language)
+                      : cert.title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm truncate">{cert.issuer || t(translations.certificates.issuerFallback, language)}</p>
                   <p className="text-muted-foreground text-xs mt-1">{formatDate(cert.issuedAt)}</p>
                 </div>
 
@@ -168,7 +175,7 @@ const CertificatesSection = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="p-2 hover:bg-secondary rounded-lg transition-colors text-muted-foreground hover:text-primary"
-                      title="Abrir certificado"
+                      title={t(translations.certificates.openCert, language)}
                     >
                       <ExternalLink className="w-5 h-5" />
                     </a>
@@ -181,7 +188,7 @@ const CertificatesSection = () => {
           <div className="text-center py-16">
             <Award className="w-12 h-12 text-muted-foreground/40 mx-auto mb-4" />
             <p className="text-muted-foreground">
-              Nenhum certificado disponível no momento.
+              {t(translations.certificates.empty, language)}
             </p>
           </div>
         ) : null}

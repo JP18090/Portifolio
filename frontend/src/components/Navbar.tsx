@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react"
 import { Menu, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-
-const links = [
-  { label: "Sobre", href: "#sobre" },
-  { label: "Experiências", href: "#experiencias" },
-  { label: "Certificados", href: "#certificados" },
-  { label: "Projetos", href: "#projetos" },
-]
+import { useLanguage } from "../i18n/LanguageContext"
+import { translations, t } from "../i18n/translations"
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const { language, setLanguage } = useLanguage()
+
+  const links = [
+    { label: t(translations.nav.about, language), href: "#sobre" },
+    { label: t(translations.nav.experience, language), href: "#experiencias" },
+    { label: t(translations.nav.certificates, language), href: "#certificados" },
+    { label: t(translations.nav.projects, language), href: "#projetos" },
+  ]
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
@@ -41,6 +44,31 @@ const Navbar = () => {
               {link.label}
             </a>
           ))}
+
+          {/* Language Toggle */}
+          <div className="flex items-center border border-border rounded-md overflow-hidden text-sm">
+            <button
+              onClick={() => setLanguage("pt")}
+              className={`px-3 py-1.5 font-medium transition-colors ${
+                language === "pt"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              PT-BR
+            </button>
+            <span className="text-muted-foreground/50 px-0.5">/</span>
+            <button
+              onClick={() => setLanguage("en")}
+              className={`px-3 py-1.5 font-medium transition-colors ${
+                language === "en"
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              ENG
+            </button>
+          </div>
         </div>
 
         {/* Mobile toggle */}
@@ -72,6 +100,31 @@ const Navbar = () => {
                   {link.label}
                 </a>
               ))}
+
+              {/* Mobile Language Toggle */}
+              <div className="flex items-center gap-2 pt-2 border-t border-border/50">
+                <button
+                  onClick={() => { setLanguage("pt"); setMobileOpen(false) }}
+                  className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
+                    language === "pt"
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  PT-BR
+                </button>
+                <span className="text-muted-foreground/50">/</span>
+                <button
+                  onClick={() => { setLanguage("en"); setMobileOpen(false) }}
+                  className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
+                    language === "en"
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  ENG
+                </button>
+              </div>
             </div>
           </motion.div>
         )}

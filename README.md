@@ -29,6 +29,7 @@ Em seguida, abra: **http://localhost:3000**
 ## ✨ Funcionalidades
 
 - ✅ **Interface de usuário bonita**: Design responsivo com fundos gradientes e animações suaves
+- ✅ **Idioma PT-BR / ENG**: Alternância de idioma na navbar — todo o conteúdo da página (seções, descrições, skills, projetos, certificados) é traduzido dinamicamente para Português ou Inglês. PT-BR vem selecionado por padrão
 - ✅ **Gerenciamento de projetos**: Adicione, edite, visualize e exclua projetos
 - ✅ **Sincronização em tempo real**: O frontend se comunica perfeitamente com o backend
 - ✅ **Tecnologia moderna**: Versões mais recentes do React, Spring Boot 3.2 e Java 17
@@ -77,10 +78,13 @@ Portfólio/
 │
 ├── frontend/ # Aplicativo React
 │ ├── src/
-│ │ ├── App.jsx # Componente principal
-│ │ ├── api.js # Cliente da API
-│ │ ├── index.css # Estilos globais
-│ │ └── main.jsx # Entrada React
+│ │ ├── i18n/ # Sistema de internacionalização
+│ │ │ ├── translations.ts # Traduções PT-BR / ENG
+│ │ │ └── LanguageContext.tsx # Context + hook useLanguage
+│ │ ├── components/ # Componentes React (traduzidos)
+│ │ ├── App.tsx # Componente principal
+│ │ ├── config.ts # Configuração da API
+│ │ └── main.tsx # Entrada React
 │ ├── index.html # Modelo HTML
 │ ├── package.json # Dependências NPM
 │ ├── vite.config.js # Configuração do Vite
@@ -178,6 +182,7 @@ changeOrigin: true
 - **Vite** 5.0 - Ferramenta de build
 - **Axios** - Cliente HTTP
 - **CSS3** - Estilização
+- **i18n customizado** - Sistema de tradução PT-BR / ENG via React Context
 
 ### Backend
 - **Spring Boot** 3.2 - Framework
@@ -278,5 +283,3 @@ Modifique em `ProjectController.java` para URLs diferentes.
 - [Banco de Dados H2](https://www.h2database.com)
 - [Guia do Vite](https://vitejs.dev/guide/)
 ---
-
-**Criado com ❤️ para desenvolvedores que desejam mostrar seu trabalho**

@@ -1,7 +1,11 @@
 import { motion } from "framer-motion"
 import { Home } from "lucide-react"
+import { useLanguage } from "../i18n/LanguageContext"
+import { translations, t } from "../i18n/translations"
 
 const NotFound = () => {
+  const { language } = useLanguage()
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-6">
       <motion.div
@@ -20,11 +24,11 @@ const NotFound = () => {
         </motion.div>
         
         <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
-          Página não encontrada
+          {t(translations.notFound.title, language)}
         </h2>
         
         <p className="text-muted-foreground text-lg mb-8">
-          Desculpe, a página que você está procurando não existe.
+          {t(translations.notFound.description, language)}
         </p>
 
         <motion.a
@@ -35,7 +39,7 @@ const NotFound = () => {
           className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-primary-foreground font-medium rounded-lg hover:opacity-90 transition-opacity"
         >
           <Home className="w-5 h-5" />
-          Voltar para Início
+          {t(translations.notFound.backHome, language)}
         </motion.a>
       </motion.div>
     </div>

@@ -8,6 +8,7 @@ A modern React application built with Vite for managing and showcasing portfolio
 - **Responsive Design**: Mobile-friendly interface with Tailwind-inspired styling
 - **Real-time API Integration**: Seamless communication with Spring Boot backend
 - **Modern Stack**: React 18 with Vite for fast development
+- **Internationalization (i18n)**: Full PT-BR / English language toggle in the navbar. All page content (sections, descriptions, skills, projects, certificates, modals) is dynamically translated. Portuguese (PT-BR) is selected by default
 
 ## 📦 Prerequisites
 
@@ -42,15 +43,19 @@ npm run preview
 ```
 frontend/
 ├── src/
-│   ├── App.jsx           # Main app component
-│   ├── App.css           # App styles
-│   ├── api.js            # API client setup
-│   ├── index.css         # Global styles
-│   ├── main.jsx          # React entry point
-├── index.html            # HTML template
-├── package.json          # Dependencies
-├── vite.config.js        # Vite configuration
-└── .eslintrc.json        # ESLint configuration
+│   ├── i18n/
+│   │   ├── translations.ts    # All PT-BR / ENG translations
+│   │   └── LanguageContext.tsx # React Context + useLanguage hook
+│   ├── components/            # UI components (all i18n-aware)
+│   ├── App.tsx                # Main app component (wraps LanguageProvider)
+│   ├── App.css                # App styles
+│   ├── config.ts              # API configuration
+│   ├── index.css              # Global styles
+│   └── main.tsx               # React entry point
+├── index.html                 # HTML template
+├── package.json               # Dependencies
+├── vite.config.js             # Vite configuration
+└── .eslintrc.json             # ESLint configuration
 ```
 
 ## 🔌 API Endpoints Used

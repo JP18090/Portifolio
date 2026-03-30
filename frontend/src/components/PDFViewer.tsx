@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { X, Download, ExternalLink } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useLanguage } from '../i18n/LanguageContext'
+import { translations, t } from '../i18n/translations'
 
 interface PDFViewerProps {
   url: string
@@ -10,6 +12,7 @@ interface PDFViewerProps {
 
 const PDFViewer: React.FC<PDFViewerProps> = ({ url, title, onClose }) => {
   const [isLoading, setIsLoading] = useState(true)
+  const { language } = useLanguage()
 
   const handleDownload = async () => {
     try {
@@ -24,8 +27,8 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ url, title, onClose }) => {
       document.body.removeChild(link)
       window.URL.revokeObjectURL(downloadUrl)
     } catch (error) {
-      console.error('Erro ao baixar PDF:', error)
-      // Fallback: abrir download direto
+      console.error('Error downloading PDF:', error)
+      // Fallback: direct download
       const link = document.createElement('a')
       link.href = url
       link.download = `${title}.pdf`
@@ -69,16 +72,16 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ url, title, onClose }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 hover:bg-secondary rounded-lg transition-colors"
-                title="Abrir em nova aba"
-                aria-label="Abrir em nova aba"
+                title={t(translations.pdfViewer.openNewTab, language)}
+                aria-label={t(translations.pdfViewer.openNewTab, language)}
               >
                 <ExternalLink className="w-5 h-5 text-primary" />
               </a>
               <button
                 onClick={onClose}
                 className="p-2 hover:bg-secondary rounded-lg transition-colors"
-                title="Fechar"
-                aria-label="Fechar"
+                title={t(translations.pdfViewer.close, language)}
+                aria-label={t(translations.pdfViewer.close, language)}
               >
                 <X className="w-5 h-5 text-foreground" />
               </button>
@@ -91,7 +94,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ url, title, onClose }) => {
               <div className="flex items-center justify-center h-full">
                 <div className="text-center">
                   <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-2"></div>
-                  <p className="text-muted-foreground">Carregando PDF...</p>
+                  <p className="text-muted-foreground">{t(translations.pdfViewer.loading, language)}</p>
                 </div>
               </div>
             )}
@@ -100,7 +103,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ url, title, onClose }) => {
               className="w-full h-full border-0"
               onLoad={() => setIsLoading(false)}
               title={title}
-              aria-label={`Visualizador de PDF: ${title}`}
+              aria-label={`${t(translations.pdfViewer.ariaLabel, language)}: ${title}`}
               sandbox="allow-same-origin"
             />
           </div>
