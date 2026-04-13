@@ -88,19 +88,19 @@ public class CertificateService {
             ),
 
             createMockCertificate(8L, 
-                "Introduction to Internet of Things", 
-                "Cisco Networking Academy", 
-                "2026-03-19",
-                "IntrotoIoTUpdate20260320-31-9ylk8p.pdf", 
-                "IntrotoIoTUpdate20260320-31-9ylk8p.pdf"
-            ),
-
-            createMockCertificate(9L, 
                 "Docker Completo do Zero ao Avançado", 
                 "Udemy", 
                 "2026-03-17",
                 "UC-62dfdd6e-bde0-4701-8703-00093a69756b.pdf", 
                 "UC-62dfdd6e-bde0-4701-8703-00093a69756b.pdf"
+            ),
+            
+            createMockCertificate(9L, 
+                "Introduction to Internet of Things", 
+                "Cisco Networking Academy", 
+                "2026-03-19",
+                "IntrotoIoTUpdate20260320-31-9ylk8p.pdf", 
+                "IntrotoIoTUpdate20260320-31-9ylk8p.pdf"
             )
         );
     }
