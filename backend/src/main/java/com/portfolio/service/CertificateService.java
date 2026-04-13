@@ -7,13 +7,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -33,103 +31,132 @@ public class CertificateService {
     // Mock data para certificados - apontando para os PDFs reais em resources/certificados/
     private List<Certificate> getMockCertificates() {
         return Arrays.asList(
-            Certificate.builder()
-                .id(1L)
-                .title("CCNA: Introduction to Networks (ITN)")
-                .issuer("Cisco Networking Academy")
-                .issuedAt("2026-03-05")
-                .fileName("CCNAITNUpdated20260305-31-21404e.pdf")
-                .storedFileName("CCNAITNUpdated20260305-31-21404e.pdf")
-                .contentType("application/pdf")
-                .fileSize(2048000L)
-                .build(),
-            
-            Certificate.builder()
-                .id(2L)
-                .title("Python Essentials 1")
-                .issuer("Cisco Networking Academy")
-                .issuedAt("2026-03-05")
-                .fileName("PythonEssentials1Update20260305-31-6kt0f6.pdf")
-                .storedFileName("PythonEssentials1Update20260305-31-6kt0f6.pdf")
-                .contentType("application/pdf")
-                .fileSize(1512000L)
-                .build(),
-            
-            Certificate.builder()
-                .id(3L)
-                .title("Desenvolvimento Full Stack")
-                .issuer("Udemy")
-                .issuedAt("2025-08-10")
-                .fileName("UC-6675ff66-9547-4524-b382-ededd42431e6.pdf")
-                .storedFileName("UC-6675ff66-9547-4524-b382-ededd42431e6.pdf")
-                .contentType("application/pdf")
-                .fileSize(1024000L)
-                .build(),
-            
-            Certificate.builder()
-                .id(4L)
-                .title("Programação Avançada")
-                .issuer("Udemy")
-                .issuedAt("2025-06-05")
-                .fileName("UC-affc475a-cdd5-470b-8072-6b58a333d74f.pdf")
-                .storedFileName("UC-affc475a-cdd5-470b-8072-6b58a333d74f.pdf")
-                .contentType("application/pdf")
-                .fileSize(768000L)
-                .build(),
-            
-            Certificate.builder()
-                .id(5L)
-                .title("Microsoft Power BI para Business Intelligence e Data Science")
-                .issuer("Alura")
-                .issuedAt("2024-07-31")
-                .fileName("certificate-microsoft-power-bi-para-business-intelligence-e-data-science-6462fe1b2bb04988150abc99.pdf")
-                .storedFileName("certificate-microsoft-power-bi-para-business-intelligence-e-data-science-6462fe1b2bb04988150abc99.pdf")
-                .contentType("application/pdf")
-                .fileSize(1256000L)
-                .build(),
+            createMockCertificate(1L, 
+            "CCNA: Introduction to Networks (ITN)", 
+            "Cisco Networking Academy", 
+            "2026-03-05",
+            "CCNAITNUpdated20260305-31-21404e.pdf", 
+            "CCNAITNUpdated20260305-31-21404e.pdf"
+            ),
 
-            Certificate.builder()
-                .id(6L)
-                .title("AWS Academy Cloud Foundations")
-                .issuer("AWS Academy")
-                .issuedAt("2026-03-15")
-                .fileName("AWS_Academy_Graduate___Cloud_Foundations___Training_Badge_Badge20260315-33-fl43ut.pdf")
-                .storedFileName("AWS_Academy_Graduate___Cloud_Foundations___Training_Badge_Badge20260315-33-fl43ut.pdf")
-                .contentType("application/pdf")
-                .fileSize(1024000L)
-                .build(),
-            Certificate.builder()
-                .id(7L)
-                .title("Python Essentials 2")
-                .issuer("Cisco Networking Academy")
-                .issuedAt("2026-03-15")
-                .fileName("PythonEssentials2Update20260315-33-qox2vh.pdf")
-                .storedFileName("PythonEssentials2Update20260315-33-qox2vh.pdf")
-                .contentType("application/pdf")
-                .fileSize(1512000L)
-                .build(),
-            Certificate.builder()
-                .id(8L)
-                .title("Introduction to Internet of Things")
-                .issuer("Cisco Networking Academy")
-                .issuedAt("2026-03-19")
-                .fileName("IntrotoIoTUpdate20260320-31-9ylk8p.pdf")
-                .storedFileName("IntrotoIoTUpdate20260320-31-9ylk8p.pdf")
-                .contentType("application/pdf")
-                .fileSize(1100000L)
-                .build(),
-            
-            Certificate.builder()
-                .id(9L)
-                .title("Docker Completo do Zero ao Avançado")
-                .issuer("Udemy")
-                .issuedAt("2026-03-17")
-                .fileName("UC-62dfdd6e-bde0-4701-8703-00093a69756b.pdf")
-                .storedFileName("UC-62dfdd6e-bde0-4701-8703-00093a69756b.pdf")
-                .contentType("application/pdf")
-                .fileSize(900000L)
-                .build()
+            createMockCertificate(2L, 
+                "Python Essentials 1", 
+                "Cisco Networking Academy", 
+                "2026-03-05",
+                "PythonEssentials1Update20260305-31-6kt0f6.pdf", 
+                "PythonEssentials1Update20260305-31-6kt0f6.pdf"
+            ),
+
+            createMockCertificate(3L, 
+                "Programação em Java do básico ao avançado", 
+                "Udemy", 
+                "2025-08-10",
+                "UC-6675ff66-9547-4524-b382-ededd42431e6.pdf", 
+                "UC-6675ff66-9547-4524-b382-ededd42431e6.pdf"
+            ),
+
+            createMockCertificate(4L, 
+                "Programação em Java do básico ao avançado", 
+                "Udemy", 
+                "2025-06-05",
+                "UC-affc475a-cdd5-470b-8072-6b58a333d74f.pdf", 
+                "UC-affc475a-cdd5-470b-8072-6b58a333d74f.pdf"
+            ),
+
+            createMockCertificate(5L, 
+                "Microsoft Power BI para Business Intelligence e Data Science", 
+                "Data Science Academy", 
+                "2024-07-31",
+                "certificate-microsoft-power-bi-para-business-intelligence-e-data-science-6462fe1b2bb04988150abc99.pdf",
+                "certificate-microsoft-power-bi-para-business-intelligence-e-data-science-6462fe1b2bb04988150abc99.pdf"
+            ),
+
+            createMockCertificate(6L, 
+                "AWS Academy Cloud Foundations", 
+                "AWS Academy", 
+                "2026-03-15",
+                "AWS_Academy_Graduate___Cloud_Foundations___Training_Badge_Badge20260315-33-fl43ut.pdf",
+                "AWS_Academy_Graduate___Cloud_Foundations___Training_Badge_Badge20260315-33-fl43ut.pdf"
+            ),
+
+            createMockCertificate(7L, 
+                "Python Essentials 2", 
+                "Cisco Networking Academy", 
+                "2026-03-15",
+                "PythonEssentials2Update20260315-33-qox2vh.pdf", 
+                "PythonEssentials2Update20260315-33-qox2vh.pdf"
+            ),
+
+            createMockCertificate(8L, 
+                "Introduction to Internet of Things", 
+                "Cisco Networking Academy", 
+                "2026-03-19",
+                "IntrotoIoTUpdate20260320-31-9ylk8p.pdf", 
+                "IntrotoIoTUpdate20260320-31-9ylk8p.pdf"
+            ),
+
+            createMockCertificate(9L, 
+                "Docker Completo do Zero ao Avançado", 
+                "Udemy", 
+                "2026-03-17",
+                "UC-62dfdd6e-bde0-4701-8703-00093a69756b.pdf", 
+                "UC-62dfdd6e-bde0-4701-8703-00093a69756b.pdf"
+            )
         );
+    }
+
+    private Certificate createMockCertificate(Long id, String title, String issuer, String issuedAt,
+                                              String fileName, String storedFileName) {
+        return Certificate.builder()
+                .id(id)
+                .title(title)
+                .issuer(issuer)
+                .issuedAt(issuedAt)
+                .fileName(fileName)
+                .storedFileName(storedFileName)
+                .contentType("application/pdf")
+                .fileSize(resolveFileSize(fileName, storedFileName))
+                .build();
+    }
+
+    private long resolveFileSize(String fileName, String storedFileName) {
+        Optional<Long> sizeByStoredName = tryGetFileSize(storedFileName);
+        if (sizeByStoredName.isPresent()) {
+            return sizeByStoredName.get();
+        }
+
+        Optional<Long> sizeByOriginalName = tryGetFileSize(fileName);
+        return sizeByOriginalName.orElse(0L);
+    }
+
+    private Optional<Long> tryGetFileSize(String candidateFileName) {
+        if (candidateFileName == null || candidateFileName.isBlank()) {
+            return Optional.empty();
+        }
+
+        // 1. Classpath (resources/certificados)
+        try {
+            ClassPathResource resource = new ClassPathResource("certificados/" + candidateFileName);
+            if (resource.exists()) {
+                try (InputStream is = resource.getInputStream()) {
+                    return Optional.of((long) is.readAllBytes().length);
+                }
+            }
+        } catch (Exception e) {
+            // fallback para filesystem
+        }
+
+        // 2. Filesystem (uploadDir)
+        try {
+            Path filePath = Paths.get(uploadDir).resolve(candidateFileName);
+            if (Files.exists(filePath)) {
+                return Optional.of(Files.size(filePath));
+            }
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+
+        return Optional.empty();
     }
 
     public List<Certificate> getAllCertificates() {

@@ -30,7 +30,7 @@ const mockCertificates: Certificate[] = [
   },
   {
     id: 3,
-    title: "Fundamentos de Segurança Cibernética e de Dados",
+    title: "Programação em Java do básico ao avançado",
     issuer: "Udemy",
     issuedAt: "2025-03-05",
     fileName: "UC-6675ff66-9547-4524-b382-ededd42431e6.pdf",
@@ -45,7 +45,7 @@ const mockCertificates: Certificate[] = [
   {
     id: 5,
     title: "Microsoft Power BI para Business Intelligence e Data Science",
-    issuer: "Alura",
+    issuer: "Data Science Academy",
     issuedAt: "2024-07-31",
     fileName: "certificate-microsoft-power-bi-para-business-intelligence-e-data-science-6462fe1b2bb04988150abc99.pdf",
   },
