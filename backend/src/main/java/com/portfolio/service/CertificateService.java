@@ -109,7 +109,7 @@ public class CertificateService {
                 "2026-05-25",
                 "AWS_Academy_Graduate___Cloud_Developing___Training_Badge_Badge20260912-20-d26bfm.pdf",
                 "AWS_Academy_Graduate___Cloud_Developing___Training_Badge_Badge20260912-20-d26bfm.pdf"
-            ),
+            )
         );
     }
 
