@@ -34,8 +34,8 @@ export const translations = {
       en: "Hello! I'm José, an Information Systems student",
     },
     bio1Link: {
-      pt: "(5º semestre)",
-      en: "(5th semester)",
+      pt: "(6º semestre)",
+      en: "(6th semester)",
     },
     bio1Rest: {
       pt: "na Universidade Presbiteriana Mackenzie, atualmente atuando como Estagiário de Compliance & OpRisk no Itaú Unibanco com forte atuação em tecnologia. Minha paixão está em resolver problemas complexos através da tecnologia, com foco em automação, dados e desenvolvimento de soluções integradas.",
