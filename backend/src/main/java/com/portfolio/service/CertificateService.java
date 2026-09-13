@@ -101,7 +101,15 @@ public class CertificateService {
                 "2026-03-19",
                 "IntrotoIoTUpdate20260320-31-9ylk8p.pdf", 
                 "IntrotoIoTUpdate20260320-31-9ylk8p.pdf"
-            )
+            ),
+
+            createMockCertificate(10L, 
+                "AWS Academy Cloud Developing", 
+                "AWS Academy", 
+                "2026-05-25",
+                "AWS_Academy_Graduate___Cloud_Developing___Training_Badge_Badge20260912-20-d26bfm.pdf",
+                "AWS_Academy_Graduate___Cloud_Developing___Training_Badge_Badge20260912-20-d26bfm.pdf"
+            ),
         );
     }
 

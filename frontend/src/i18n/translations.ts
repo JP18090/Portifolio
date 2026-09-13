@@ -14,8 +14,8 @@ export const translations = {
     subtitle: { pt: "Portfólio Pessoal", en: "Personal Portfolio" },
     role: { pt: "Developer", en: "Developer" },
     tagline: {
-      pt: "Estagiário de TI · Python & Java · Power BI & Dados",
-      en: "IT Intern · Python & Java · Power BI & Data",
+      pt: "Estagiário de TI · Automações · Power Automate & AWS",
+      en: "IT Intern · Automation · Power Automate & AWS",
     },
     quote: {
       pt: '"Programar é como viver: você corrige erros, aprende com os desafios e evolui a cada nova linha de código." - José Pedro',
@@ -38,20 +38,20 @@ export const translations = {
       en: "(5th semester)",
     },
     bio1Rest: {
-      pt: "na Universidade Presbiteriana Mackenzie, atualmente atuando como Estagiário de TI na Brasol. Minha paixão está em resolver problemas complexos através da tecnologia, com foco em arquitetura de dados, automação e desenvolvimento de soluções integradas.",
-      en: "at Mackenzie Presbyterian University, currently working as an IT Intern at Brasol. My passion is solving complex problems through technology, focusing on data architecture, automation, and integrated solution development.",
+      pt: "na Universidade Presbiteriana Mackenzie, atualmente atuando como Estagiário de Compliance & OpRisk no Itaú Unibanco com forte atuação em tecnologia. Minha paixão está em resolver problemas complexos através da tecnologia, com foco em automação, dados e desenvolvimento de soluções integradas.",
+      en: "at Mackenzie Presbyterian University, currently working as a Compliance & OpRisk Intern at Itaú Unibanco with strong involvement in technology initiatives. My passion is solving complex problems through technology, focusing on automation, data, and integrated solution development.",
     },
     bio2: {
-      pt: "Trabalho com ERP, análise de bancos de dados, desenvolvimento em Python e Java, criação de dashboards em Power BI e IA para otimização operacional. Acredito que desenvolvimento técnico exige disciplina, responsabilidade e visão sistêmica. Vamos crescer juntos? Explore meu portfólio!",
-      en: "I work with ERP, database analysis, Python and Java development, Power BI dashboard creation, and AI for operational optimization. I believe technical development requires discipline, responsibility, and systemic vision. Let's grow together? Explore my portfolio!",
+      pt: "Atuo com mapeamento e documentação de processos, análise de dados regulatórios, consultas SQL, automações com Power Automate e VBA, além de organização de fluxos e informações em SharePoint e AWS. Acredito que desenvolvimento técnico exige disciplina, responsabilidade e visão sistêmica. Vamos crescer juntos? Explore meu portfólio!",
+      en: "I work with process mapping and documentation, regulatory data analysis, SQL queries, automation with Power Automate and VBA, and workflow/information organization in SharePoint and AWS. I believe technical development requires discipline, responsibility, and systemic vision. Let's grow together? Explore my portfolio!",
     },
     location: { pt: "Localização", en: "Location" },
     locationValue: { pt: "São Paulo, Brasil", en: "São Paulo, Brazil" },
     email: { pt: "Email", en: "Email" },
     mainSkills: { pt: "Habilidades Principais", en: "Main Skills" },
     skills: {
-      pt: ["Python", "Java", "JavaSpring-boot", "SQL", "Power BI", "ERP", "APIs REST", "React", "Automação"],
-      en: ["Python", "Java", "JavaSpring-boot", "SQL", "Power BI", "ERP", "REST APIs", "React", "Automation"],
+      pt: ["Python", "Java", "SQL", "Power Automate", "AWS", "Power Automate", "SharePoint", "Power BI", "APIs REST", "Automação"],
+      en: ["Python", "Java", "SQL", "Power Automate", "AWS", "Power Automate", "SharePoint", "Power BI", "REST APIs", "Automation"],
     },
   },
 
@@ -65,9 +65,26 @@ export const translations = {
     softSkills: { pt: "Soft Skills", en: "Soft Skills" },
     items: [
       {
+        role: { pt: "Estagiário de Compliance & OpRisk (com atuação em TI)", en: "Compliance & OpRisk Intern (with IT focus)" },
+        company: { pt: "Itaú Unibanco", en: "Itaú Unibanco" },
+        period: { pt: "Jul 2026 — Presente", en: "Jul 2026 — Present" },
+        description: {
+          pt: "Condução de fluxos críticos com foco em governança no controle de pareceres e na gestão de informações em SharePoint e ambiente AWS. Atuação em levantamento e análise de dados regulatórios com Excel e SQL, com foco em automação ponta a ponta de rotinas por meio de Power Automate, Visual Basic e ferramentas correlatas, além da modernização de materiais de treinamento interativos em PowerPoint e da documentação desses processos no Visio.",
+          en: "Management of critical workflows with a focus on governance for opinion control and information management in SharePoint and AWS environments. Work on collecting and analyzing regulatory data with Excel and SQL, focused on end-to-end process automation using Power Automate, Visual Basic, and related tools, as well as modernizing interactive training materials in PowerPoint and documenting these processes in Visio.",
+        },
+        hardSkills: {
+          pt: ["Power Automate", "AWS", "SQL", "Excel", "Visual Basic", "Visio", "SharePoint"],
+          en: ["Power Automate", "AWS", "SQL", "Excel", "Visual Basic", "Visio", "SharePoint"],
+        },
+        softSkills: {
+          pt: ["Comunicação", "Resolução de Problemas", "Análise Crítica", "Organização", "Adaptabilidade"],
+          en: ["Communication", "Problem Solving", "Critical Thinking", "Organization", "Adaptability"],
+        },
+      },
+      {
         role: { pt: "Estagiário de TI", en: "IT Intern" },
         company: { pt: "Brasol", en: "Brasol" },
-        period: { pt: "Mar 2026 — Presente", en: "Mar 2026 — Present" },
+        period: { pt: "Mar 2026 — Jul 2026", en: "Mar 2026 — Jul 2026" },
         description: {
           pt: "Parametrização de ERP corporativo (Microsoft Dynamics), análise de bancos de dados, construção de consultas SQL e desenvolvimento de dashboards em Power BI. Automações em Python e contribuição para melhoria contínua de processos.",
           en: "Corporate ERP parameterization (Microsoft Dynamics), database analysis, SQL query building, and Power BI dashboard development. Python automations and contribution to continuous process improvement.",
@@ -138,13 +155,14 @@ export const translations = {
     mockTitles: [
       { pt: "CCNA: Introduction to Networks", en: "CCNA: Introduction to Networks" },
       { pt: "Python Essentials 1", en: "Python Essentials 1" },
-      { pt: "Fundamentos de Segurança Cibernética e de Dados", en: "Cybersecurity and Data Security Fundamentals" },
+      { pt: "Programação em Java do básico ao avançado", en: "Java Programming from Basics to Advanced" },
       { pt: "Programação em Java do básico ao avançado", en: "Java Programming from Basics to Advanced" },
       { pt: "Microsoft Power BI para Business Intelligence e Data Science", en: "Microsoft Power BI for Business Intelligence and Data Science" },
       { pt: "AWS Academy Cloud Foundations", en: "AWS Academy Cloud Foundations" },
       { pt: "Python Essentials 2", en: "Python Essentials 2" },
       { pt: "Docker Completo do Zero ao Avançado", en: "Docker Complete from Zero to Advanced" },
       { pt: "Introdução à IoT", en: "Introduction to IoT" },
+      { pt: "AWS Academy Cloud Developing", en: "AWS Academy Cloud Developing" },
     ],
   },
 
