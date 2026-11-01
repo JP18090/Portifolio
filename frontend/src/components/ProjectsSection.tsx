@@ -25,7 +25,7 @@ const defaultProjects: Project[] = [
     description: "Website de portfólio desenvolvido com React, TypeScript e Tailwind CSS. Integração com backend Spring Boot e banco de dados H2.",
     technologies: ["React", "TypeScript", "Tailwind CSS", "Spring Boot", "H2 Database"],
     github: "https://github.com/JP18090/Portifolio",
-    liveUrl: "https://portifolio-1-grk0.onrender.com/",
+    liveUrl: "https://16.58.39.91.sslip.io/",
   },
   {
     id: 2,
