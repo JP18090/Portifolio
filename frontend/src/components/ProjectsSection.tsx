@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import { ExternalLink, Github } from "lucide-react"
+import { ExternalLink, Github, Linkedin } from "lucide-react"
 import { useLanguage } from "../i18n/LanguageContext"
 import { translations, t } from "../i18n/translations"
 
@@ -13,6 +13,7 @@ interface Project {
   repositoryUrl?: string
   liveUrl?: string
   deployedUrl?: string
+  linkedinUrl?: string
   image?: string
   imageUrl?: string
 }
@@ -72,6 +73,7 @@ const defaultProjects: Project[] = [
     description: "Projeto de Internet das Coisas (IoT) desenvolvido em C++ para sistemas embarcados, com leitura de sensores e comunicação entre dispositivos.",
     technologies: ["C++", "IoT", "Embedded Systems"],
     github: "https://github.com/JP18090/IoT-Project",
+    linkedinUrl: "https://pt.linkedin.com/posts/jos%C3%A9-pedro-bitetti-tkatchuk-584aba303_mackenzie-mackenzieexperience-sistemasdeinforma%C3%A7%C3%A3o-activity-7511794247415607296-CkpW",
   },
   {
     id: 9,
@@ -199,6 +201,17 @@ const ProjectsSection = () => {
                       >
                         <ExternalLink className="w-4 h-4" />
                         {t(translations.projects.viewProject, language)}
+                      </a>
+                    )}
+                    {project.linkedinUrl && (
+                      <a
+                        href={project.linkedinUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary transition-colors text-sm font-medium"
+                      >
+                        <Linkedin className="w-4 h-4" />
+                        LinkedIn
                       </a>
                     )}
                   </div>
