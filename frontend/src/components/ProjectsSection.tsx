@@ -59,6 +59,34 @@ const defaultProjects: Project[] = [
     technologies: ["Python", "Data Structures", "Business Logic", "CLI Application"],
     github: "https://github.com/JP18090/ProjPython",
   },
+  {
+    id: 7,
+    name: "APOFlow",
+    description: "Sistema de Gestão de Atividades Programadas Obrigatórias com frontend em TypeScript, backend em Java e infraestrutura provisionada como código.",
+    technologies: ["TypeScript", "Java", "Docker", "Terraform", "JavaScript"],
+    github: "https://github.com/JP18090/APOFlow",
+  },
+  {
+    id: 8,
+    name: "IoT-Project",
+    description: "Projeto de Internet das Coisas (IoT) desenvolvido em C++ para sistemas embarcados, com leitura de sensores e comunicação entre dispositivos.",
+    technologies: ["C++", "IoT", "Embedded Systems"],
+    github: "https://github.com/JP18090/IoT-Project",
+  },
+  {
+    id: 9,
+    name: "BootCamp Itaú — Java com IA",
+    description: "Projeto desenvolvido no bootcamp do Itaú explorando Java com Inteligência Artificial, integrando recursos de IA em aplicações backend.",
+    technologies: ["Java", "Inteligência Artificial", "Backend"],
+    github: "https://github.com/JP18090/BootCamp_Projetc",
+  },
+  {
+    id: 10,
+    name: "POC Spring IA",
+    description: "Prova de conceito com módulos práticos de Spring Boot cobrindo DDD, Spring Web, Spring Data, Spring Security, OpenFeign e Spring AI.",
+    technologies: ["Java", "Spring Boot", "Spring AI", "Spring Security", "DDD", "OpenFeign"],
+    github: "https://github.com/JP18090/POC-Spring-IA",
+  },
 ]
 
 const ProjectsSection = () => {
